@@ -35,11 +35,12 @@
  * @param	string	The hash to use
  * @param	int		The number of seconds, the score and reviews are cached
  * @param	string	Optional User Agent string, defaults to KiyOh Score And Review Client
+ * @param	string	Optional cache path [exclude trailing slash (/)], defaults to current directory
  * @return	mixed	The array (name:string, score:decimal, reviews:int) with score and number of reviews or FALSE
  */
-function get_kiyoh_score_and_reviews($Hash, $Expires = 3600, $UA = 'KiyOh Score And Review Client')
+function get_kiyoh_score_and_reviews($Hash, $Expires = 3600, $UA = 'KiyOh Score And Review Client', $CachePath = FALSE)
 {
-	$CacheFile = realpath(NULL).'/kiyoh_'.$Hash.'.txt';
+	$CacheFile = ($CachePath === FALSE || !file_exists($CachePath) ? realpath(NULL) : $CachePath).'/kiyoh_'.$Hash.'.txt';
 	if (!file_exists($CacheFile) || filemtime($CacheFile) < (time() - $Expires)) {
 		$Context = stream_context_create(array('http' => array(
 			'method'	=> 'GET',
