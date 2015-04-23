@@ -33,20 +33,21 @@
  * Retrieves the KiyOh score and reviews for the given hash
  *
  * @param	string	The hash to use
+ * @param	int		The type of request (1 = KiyOh, 2 = Webwinkel Keur, 3 = Trustpilot)
  * @param	int		The number of seconds, the score and reviews are cached
  * @param	string	Optional User Agent string, defaults to KiyOh Score And Review Client
  * @param	string	Optional cache path [exclude trailing slash (/)], defaults to current directory
  * @return	mixed	The array (name:string, score:decimal, reviews:int) with score and number of reviews or FALSE
  */
-function get_kiyoh_score_and_reviews($Hash, $Expires = 3600, $UA = 'KiyOh Score And Review Client', $CachePath = FALSE)
+function get_kiyoh_score_and_reviews($Hash, $Type = 1, $Expires = 3600, $UA = 'KiyOh Score And Review Client', $CachePath = FALSE)
 {
-	$CacheFile = ($CachePath === FALSE || !file_exists($CachePath) ? realpath(NULL) : $CachePath).'/kiyoh_'.$Hash.'.txt';
+	$CacheFile = ($CachePath === FALSE || !file_exists($CachePath) ? realpath(NULL) : $CachePath).'/kiyoh_'.$Hash.'_'.$Type'.txt';
 	if (!file_exists($CacheFile) || filemtime($CacheFile) < (time() - $Expires)) {
 		$Context = stream_context_create(array('http' => array(
 			'method'	=> 'GET',
 			'header'	=> "Accept-language: en\r\nUser-Agent: ".$UA."\r\n"
 		)));
-		if (($APIData = file_get_contents('https://kiyoh.api.gl/?q='.$Hash, FALSE, $Context)) !== FALSE && ($APIResult = json_decode($APIData, TRUE)) !== FALSE && array_key_exists('code', $APIResult) && (int)$APIResult['code'] === 200 && array_key_exists('result', $APIResult)) {
+		if (($APIData = file_get_contents('https://kiyoh.api.gl/?q='.$Hash.'&t='.(int)$Type, FALSE, $Context)) !== FALSE && ($APIResult = json_decode($APIData, TRUE)) !== FALSE && array_key_exists('code', $APIResult) && (int)$APIResult['code'] === 200 && array_key_exists('result', $APIResult)) {
 			file_put_contents($CacheFile, json_encode($APIResult['result']), LOCK_EX);
 			return $APIResult['result'];
 		}
