@@ -41,7 +41,7 @@
  */
 function get_kiyoh_score_and_reviews($Hash, $Type = 1, $Expires = 3600, $UA = 'KiyOh Score And Review Client', $CachePath = FALSE)
 {
-	$CacheFile = ($CachePath === FALSE || !file_exists($CachePath) ? realpath(NULL) : $CachePath).'/kiyoh_'.$Hash.'_'.$Type.'.txt';
+	$CacheFile = ($CachePath === FALSE || !file_exists($CachePath) ? realpath(dirname(__FILE__)) : $CachePath).'/kiyoh_'.$Hash.'_'.$Type.'.txt';
 	if (!file_exists($CacheFile) || filemtime($CacheFile) < (time() - $Expires)) {
 		$Context = stream_context_create(array('http' => array(
 			'method'	=> 'GET',
