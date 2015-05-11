@@ -22,7 +22,7 @@
 	</head>
 	
 	<body>
-		<a href="https://nl.trustpilot.com/">
+		<a href="https://www.feedbackcompany.nl/">
 			<img src="https://www.feedbackcompany.nl/images/logo.jpg" alt="The Feedback Company" />
 			<div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 				<span itemprop="itemreviewed"><?=$ScoreAndReviews['name'];?></span><br />
