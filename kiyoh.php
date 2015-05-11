@@ -33,7 +33,7 @@
  * Retrieves the KiyOh score and reviews for the given hash
  *
  * @param	string	The hash to use
- * @param	int		The type of request (1 = KiyOh, 2 = Webwinkel Keur, 3 = Trustpilot)
+ * @param	int		The type of request (1 = KiyOh, 2 = Webwinkel Keur, 3 = Trustpilot, 4 = The Feedback Company)
  * @param	int		The number of seconds, the score and reviews are cached
  * @param	string	Optional User Agent string, defaults to KiyOh Score And Review Client
  * @param	string	Optional cache path [exclude trailing slash (/)], defaults to current directory
